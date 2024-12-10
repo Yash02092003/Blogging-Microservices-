@@ -1,0 +1,57 @@
+apiVersion: skaffold/v4beta3
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/* #This is verry important it is very Important it tells scaffold that there is a collection of files that needed to be watched
+build:
+  local:
+    push: false
+  artifacts: #This is the top-level key in the Skaffold configuration file. It defines the images or build artifacts that Skaffold will manage during the build process.
+    - image: yash02092003/client #The name of the Docker image to be built.
+      context: client #This specifies the directory containing the source code for the client image.
+      docker:
+        dockerfile: Dockerfile
+      sync: #This block configures file synchronization, a feature of Skaffold that allows you to sync changes in the source code to the running container without rebuilding the entire image.
+        manual:
+          - src: 'src/**/*.js'
+            dest: .
+    - image: yash02092003/comments
+      context: comments
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: yash02092003/event-bus
+      context: event-bus
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: yash02092003/moderation
+      context: moderation
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: yash02092003/posts
+      context: posts
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+    - image: yash02092003/query
+      context: query
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
